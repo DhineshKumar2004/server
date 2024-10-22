@@ -9,7 +9,7 @@ const port = 8000;
 
 // Update CORS to allow your Netlify URL
 app.use(cors({
-    origin: "https://monumental-moxie-1d8883.netlify.app", // Your Netlify URL
+    origin: "https://neon-pothos-1a2c00.netlify.app/", // Your Netlify URL
     methods: ["GET", "POST", "PATCH", "DELETE"],
 }));
 
