@@ -7,8 +7,9 @@ const app = express();
 app.use(express.json());
 const port = 8000;
 
+// Update CORS to allow your Netlify URL
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://monumental-moxie-1d8883.netlify.app", // Your Netlify URL
     methods: ["GET", "POST", "PATCH", "DELETE"],
 }));
 
@@ -21,7 +22,7 @@ app.get("/users", (req, res) => {
     return res.json(users);
 });
 
-// Delete user detail
+// Delete user
 app.delete("/users/:id", (req, res) => {
     let id = Number(req.params.id);
     let filteredUsers = users.filter((user) => user.id !== id);
@@ -37,8 +38,6 @@ app.delete("/users/:id", (req, res) => {
 // Add new user
 app.post("/users", (req, res) => {
     let { name, email, phone } = req.body;
-
-    // Set default status to true (active) when adding a new user
     let status = req.body.status !== undefined ? req.body.status : true;
 
     if (!name || !email || !phone) {
@@ -46,7 +45,7 @@ app.post("/users", (req, res) => {
     }
 
     let id = Date.now();
-    users.push({ id, name, email, phone, status }); // Include status
+    users.push({ id, name, email, phone, status });
 
     fs.writeFile("./data.json", JSON.stringify(users), (err) => {
         if (err) {
@@ -59,7 +58,7 @@ app.post("/users", (req, res) => {
 // Update user
 app.patch("/users/:id", (req, res) => {
     let id = Number(req.params.id);
-    let { name, email, phone, status } = req.body; // Include status in the body
+    let { name, email, phone, status } = req.body;
 
     if (!name || !email || !phone) {
         return res.status(400).send({ message: "All fields are required" });
@@ -70,7 +69,6 @@ app.patch("/users/:id", (req, res) => {
         return res.status(404).json({ message: "User not found" });
     }
 
-    // Update user details, including status
     users[userIndex] = { ...users[userIndex], name, email, phone, status };
 
     fs.writeFile("./data.json", JSON.stringify(users), (err) => {
@@ -81,7 +79,6 @@ app.patch("/users/:id", (req, res) => {
     });
 });
 
-// Start the server
 app.listen(port, () => {
     console.log(`App is running on port ${port}`);
 });
