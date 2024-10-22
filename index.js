@@ -12,6 +12,10 @@ app.use(cors({
     methods: ["GET", "POST", "PATCH", "DELETE"],
 }));
 
+app.get("/", (req, res) => {
+    res.send("Welcome to the User Management API");
+});
+
 // Display all users
 app.get("/users", (req, res) => {
     return res.json(users);
