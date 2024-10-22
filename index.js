@@ -14,7 +14,7 @@ app.use(cors({
 
 app.get("/", (req, res) => {
     res.send("Welcome to the User Management API");
-    console.log(users);
+    console.log(users.name);
 });
 
 // Display all users
